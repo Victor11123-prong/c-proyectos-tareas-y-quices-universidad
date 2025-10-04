@@ -1,0 +1,148 @@
+/*punto 1*/
+#include <iostream>
+
+using namespace std;
+
+int main () {
+
+int edad= 18 ;
+
+float numero_decimal= 1.0;
+
+char caracter = '$';
+
+cout<<"el tipo de variable entera que ingreso es: "<<edad<<endl;
+
+cout<<"el tipo de variable flotante que ingreso es : "<<numero_decimal<<endl;
+
+cout<<"el tipo de variable caracter que ingreso es: "<<caracter<<endl;
+
+
+return 0;
+
+
+}
+/*Pregunta 1.2: Explica la diferencia entre los tipos de datos int, float y char en C++. ¿Cuándo es recomendable usar cada uno?
+el int se usa para los numero de tipo entero, el float para numeros decimales mas que todo y el tipo de variable char se usa para contenido de tipo caracter*/
+
+/*punto 2*/
+
+#include<iostream>
+
+using namespace std;
+
+int main () {
+
+int a, b;
+
+int suma=0, resta=0, multiplicacion=0;
+
+float division=0;
+
+double modulo = 0;
+
+cout<<"ingrese el numero de la varible a: "<<endl; cin>>a;
+
+cout<<"ingrese el numero de la variable b: "<<endl; cin>>b;
+
+suma= a+b;
+
+resta= a-b;
+
+multiplicacion= a*b;
+
+division= a/b;
+
+modulo= a%b;
+
+cout<<"el resultado de la suma es: "<<suma<<endl;
+
+cout<<"el resultado de la resta es: "<<resta<<endl;
+
+cout<<"el resultado de la multiplicacion es: "<<multiplicacion<<endl;
+
+cout<<"el resultado de la division es: "<<division<<endl;
+
+cout<<"el resultado del modulo es: "<<modulo<<endl;
+
+return 0;
+    
+}
+
+/*Pregunta 2.2: ¿Cuál es la diferencia entre los operadores de comparación == y != en C++? Da un ejemplo de su uso. R// sirve para evaluar condiciones logicas y devolver un valor booleano o sea falso a verdadero.
+
+Pregunta 2.3: ¿Cómo se pueden usar los operadores lógicos && (AND), || (OR) y ! (NOT) en C++? Escribe un ejemplo con condiciones simples. R// El codicional AND de vuelve un valor verdadero si las dos condiciones se cumplen si no arroja falso, el condicional OR arroja verdadero si almenos una de la condiciones es verdadera.
+y el condicional NOT invierte los valores, si antes era verdadero la convierte a falso. */
+
+/*PUNTO 3*/
+
+#include <iostream>
+
+using namespace std;
+
+int main () {
+
+    int edad;
+
+    cout<<"ingresa tu edad: "<<endl; cin>>edad;
+
+    if(edad >=18 ) {
+        cout<<"es mayor de edad"<<endl;
+    } else {
+        cout<<"no es mayor de edad"<<endl;
+
+    }
+
+
+    return 0;
+
+}
+/*Pregunta 3.2: Explica cómo funciona una estructura else if en C++. Da un ejemplo donde sea necesario utilizarla. R// esta funciona poniendo como una especie de condicion, si se cumple
+esta ejecuta una linea de codigo, de lo contrario que es el (else) ejecuta otra linea de codigo */
+
+
+/*PUNTO 4*/
+
+/*4.1*/
+#include<iostream>
+
+using namespace std;
+
+int main () {
+
+int i;
+
+for(i=1; i<=10; i++) {
+cout<<i<<endl;
+} 
+
+    return 0;
+}
+/*4.2*/
+#include <iostream>
+using namespace std;
+
+int main() {
+    int i = 10;
+
+    while (i >= 1) {
+        cout << i << endl;
+        i--;
+    }
+
+    return 0;
+}
+/*4.3*/
+#include <iostream>
+using namespace std;
+
+int main() {
+    int i = 2;
+
+    do {
+        cout << i << endl;
+        i += 2;
+    } while (i <= 20);
+
+    return 0;
+}
