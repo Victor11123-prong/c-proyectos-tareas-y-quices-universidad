@@ -1,0 +1,423 @@
+/*======================1.Struct con constructores y valores por defecto======================================*/
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Producto {
+    string nombre;
+    double precio;
+    int stock;
+
+    Producto(string n, double p = 0.0, int s = 0) {
+        nombre = n;
+        precio = p;
+        stock = s;
+    }
+};
+
+int main() {
+
+    Producto p1("Manzanas");
+
+
+    Producto p2("Leche", 2500.50);
+
+
+    Producto p3("Pan", 1800.75, 50);
+
+    cout << "Producto 1: " << p1.nombre << " | Precio: " << p1.precio << " | Stock: " << p1.stock << endl;
+    cout << "Producto 2: " << p2.nombre << " | Precio: " << p2.precio << " | Stock: " << p2.stock << endl;
+    cout << "Producto 3: " << p3.nombre << " | Precio: " << p3.precio << " | Stock: " << p3.stock << endl;
+
+    return 0;
+}
+
+/*================================2.Métodos const y validación=============================================*/
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+struct Producto {
+    string nombre;
+    double precio;
+    int stock;
+
+    Producto(string n, double p = 0.0, int s = 0) {
+        nombre = n;
+        precio = p;
+        stock = s;
+    }
+
+
+    bool disponible() const {
+        return stock > 0;
+    }
+
+
+    bool esValido() const {
+        return precio >= 0 && !nombre.empty();
+    }
+};
+
+int main() {
+    vector<Producto> productos = {
+        Producto("Pan", 1500, 10),
+        Producto("Leche", 2500, 0),
+        Producto("", 2000, 5),
+        Producto("Jugo", -1000, 8),
+        Producto("Manzanas", 3000, 15)
+    };
+
+
+    productos.erase(remove_if(productos.begin(), productos.end(),
+        [](const Producto& p){
+            return !p.esValido() || !p.disponible();
+        }), productos.end());
+
+    cout << "Productos válidos y disponibles:\n";
+    for (const auto& p : productos) {
+        cout << "- " << p.nombre << " | Precio: " << p.precio << " | Stock: " << p.stock << endl;
+    }
+
+    return 0;
+}
+/*=================================3.Operadores == y < para ordenar y buscar===========================*/
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+struct Producto {
+    string nombre;
+    double precio;
+    int stock;
+
+    Producto(string n, double p = 0.0, int s = 0) {
+        nombre = n;
+        precio = p;
+        stock = s;
+    }
+
+    bool operator==(const Producto& otro) const {
+        string a = nombre, b = otro.nombre;
+        transform(a.begin(), a.end(), a.begin(), ::tolower);
+        transform(b.begin(), b.end(), b.begin(), ::tolower);
+        return a == b;
+    }
+
+    bool operator<(const Producto& otro) const {
+        if (precio == otro.precio)
+            return nombre < otro.nombre;
+        return precio < otro.precio;
+    }
+};
+
+int main() {
+    vector<Producto> productos = {
+        Producto("Leche", 2500, 10),
+        Producto("Pan", 1500, 5),
+        Producto("Arroz", 2800, 20),
+        Producto("Jugo", 1500, 12),
+        Producto("Manzanas", 3000, 8)
+    };
+
+
+    sort(productos.begin(), productos.end());
+
+    cout << "Productos ordenados por precio (y nombre si igual):\n";
+    for (const auto& p : productos) {
+        cout << "- " << p.nombre << " | Precio: " << p.precio << " | Stock: " << p.stock << endl;
+    }
+
+
+    Producto buscado("pan");
+    auto it = find(productos.begin(), productos.end(), buscado);
+
+    if (it != productos.end()) {
+        cout << "\nProducto encontrado: " << it->nombre 
+             << " | Precio: " << it->precio 
+             << " | Stock: " << it->stock << endl;
+    } else {
+        cout << "\nNo se encontró el producto.\n";
+    }
+
+    return 0;
+}
+/*=================================4. Crea una estructura para representar un polinomio===========================*/
+#include <iostream>
+#include <vector>
+using namespace std;
+
+struct Polinomio {
+    
+    vector<double> coef;
+
+
+    Polinomio(int grado) {
+        coef.resize(grado + 1, 0.0);
+    }
+
+
+    void mostrar() {
+        for (int i = coef.size() - 1; i >= 0; i--) {
+            if (coef[i] != 0) {
+                cout << coef[i];
+                if (i > 0) cout << "x^" << i;
+                if (i > 0) cout << " + ";
+            }
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+
+    Polinomio p(2);
+
+    p.coef[0] = 3;
+    p.coef[1] = -2;
+    p.coef[2] = 5;
+
+    cout << "Polinomio: ";
+    p.mostrar();
+
+    return 0;
+}
+/*==================================================5. Implementa un sistema de inventario más complejo.======================================================*/
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+struct Producto {
+    string nombre;
+    double precio;
+    int stock;
+
+    Producto(string n, double p = 0.0, int s = 0) {
+        nombre = n;
+        precio = p;
+        stock = s;
+    }
+
+    bool disponible() const {
+        return stock > 0;
+    }
+
+    bool esValido() const {
+        return precio >= 0 && !nombre.empty();
+    }
+};
+
+int main() {
+    vector<Producto> inventario;
+
+
+    inventario.push_back(Producto("Pan", 1500, 10));
+    inventario.push_back(Producto("Leche", 2500, 20));
+    inventario.push_back(Producto("Arroz", 3000, 15));
+
+
+    cout << "=== INVENTARIO INICIAL ===\n";
+    for (auto &p : inventario) {
+        cout << "- " << p.nombre << " | Precio: " << p.precio << " | Stock: " << p.stock << endl;
+    }
+
+
+    string nombreBuscado;
+    cout << "\nIngrese el nombre de un producto para buscar: ";
+    cin >> nombreBuscado;
+
+    auto it = find_if(inventario.begin(), inventario.end(), [&](const Producto &p) {
+        return p.nombre == nombreBuscado;
+    });
+
+    if (it != inventario.end()) {
+        cout << "Producto encontrado: " << it->nombre << " | Stock: " << it->stock << endl;
+    } else {
+        cout << "Producto no encontrado.\n";
+    }
+
+
+    cout << "\nVendiendo 3 unidades de Pan...\n";
+    for (auto &p : inventario) {
+        if (p.nombre == "Pan") {
+            p.stock -= 3;
+        }
+    }
+
+
+    cout << "\nAgregando un nuevo producto: Huevos.\n";
+    inventario.push_back(Producto("Huevos", 1800, 30));
+
+    inventario.erase(remove_if(inventario.begin(), inventario.end(),
+        [](const Producto &p) { return p.stock <= 0; }), inventario.end());
+
+    cout << "\n=== INVENTARIO ACTUALIZADO ===\n";
+    for (auto &p : inventario) {
+        cout << "- " << p.nombre << " | Precio: " << p.precio << " | Stock: " << p.stock << endl;
+    }
+
+    return 0;
+}
+/*==================================================6. Desarrolla una estructura para representar una fracción ======================================================*/
+#include <iostream>
+using namespace std;
+
+struct Fraccion {
+    int numerador;
+    int denominador;
+
+
+    Fraccion(int n = 0, int d = 1) {
+ 
+        if (d == 0) {
+            cout << "Error: el denominador no puede ser cero. Se asigna 1 por defecto.\n";
+            denominador = 1;
+        } else {
+            denominador = d;
+        }
+        numerador = n;
+    }
+
+ 
+    void mostrar() {
+        cout << numerador << "/" << denominador;
+    }
+
+l
+    double valorDecimal() {
+        return (double)numerador / denominador;
+    }
+
+    
+    void simplificar() {
+        int a = numerador, b = denominador;
+        while (b != 0) {
+            int temp = b;
+            b = a % b;
+            a = temp;
+        }
+        int mcd = (a < 0) ? -a : a; // evitar signo negativo
+        numerador /= mcd;
+        denominador /= mcd;
+    }
+};
+
+int main() {
+    Fraccion f1(6, 9);
+    Fraccion f2(3, 4);
+    Fraccion f3(5, 0); // demostración de validación
+
+    cout << "Fraccion 1: ";
+    f1.mostrar();
+    cout << " = " << f1.valorDecimal() << endl;
+
+    cout << "Fraccion 2: ";
+    f2.mostrar();
+    cout << " = " << f2.valorDecimal() << endl;
+
+    cout << "\nSimplificando f1...\n";
+    f1.simplificar();
+    cout << "Fraccion simplificada: ";
+    f1.mostrar();
+    cout << endl;
+
+    return 0;
+}
+/*==================================================7. Crea un sistema de gestión de contactos ======================================================*/
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+struct Contacto {
+    string nombre;
+    string telefono;
+    string correo;
+
+    Contacto(string n = "", string t = "", string c = "") {
+        nombre = n;
+        telefono = t;
+        correo = c;
+    }
+
+    void mostrar() const {
+        cout << "Nombre: " << nombre << " | Teléfono: " << telefono << " | Correo: " << correo << endl;
+    }
+};
+
+int main() {
+    vector<Contacto> contactos;
+    int opcion;
+    string nombre, telefono, correo;
+
+    do {
+        cout << "\n=== MENU DE CONTACTOS ===\n";
+        cout << "1. Agregar contacto\n";
+        cout << "2. Mostrar contactos\n";
+        cout << "3. Buscar contacto\n";
+        cout << "4. Eliminar contacto\n";
+        cout << "0. Salir\n";
+        cout << "Opción: ";
+        cin >> opcion;
+        cin.ignore(); // limpiar el buffer
+
+        if (opcion == 1) {
+            cout << "Nombre: ";
+            getline(cin, nombre);
+            cout << "Teléfono: ";
+            getline(cin, telefono);
+            cout << "Correo: ";
+            getline(cin, correo);
+            contactos.push_back(Contacto(nombre, telefono, correo));
+            cout << "Contacto agregado con éxito.\n";
+
+        } else if (opcion == 2) {
+            cout << "\n=== LISTA DE CONTACTOS ===\n";
+            if (contactos.empty()) {
+                cout << "No hay contactos.\n";
+            } else {
+                for (auto &c : contactos) {
+                    c.mostrar();
+                }
+            }
+
+        } else if (opcion == 3) {
+            cout << "Ingrese el nombre del contacto a buscar: ";
+            getline(cin, nombre);
+            auto it = find_if(contactos.begin(), contactos.end(), [&](const Contacto &c) {
+                return c.nombre == nombre;
+            });
+            if (it != contactos.end()) {
+                cout << "Contacto encontrado:\n";
+                it->mostrar();
+            } else {
+                cout << "No se encontró ese contacto.\n";
+            }
+
+        } else if (opcion == 4) {
+            cout << "Ingrese el nombre del contacto a eliminar: ";
+            getline(cin, nombre);
+            auto it = remove_if(contactos.begin(), contactos.end(), [&](const Contacto &c) {
+                return c.nombre == nombre;
+            });
+            if (it != contactos.end()) {
+                contactos.erase(it, contactos.end());
+                cout << "Contacto eliminado.\n";
+            } else {
+                cout << "No se encontró ese contacto.\n";
+            }
+        }
+
+    } while (opcion != 0);
+
+    cout << "\nSaliendo del programa...\n";
+    return 0;
+}
+
